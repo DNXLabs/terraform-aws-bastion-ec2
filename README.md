@@ -1,7 +1,7 @@
-# terraform-aws-template
+# terraform-aws-bastion-ec2
 
-[![Lint Status](https://github.com/DNXLabs/terraform-aws-template/workflows/Lint/badge.svg)](https://github.com/DNXLabs/terraform-aws-template/actions)
-[![LICENSE](https://img.shields.io/github/license/DNXLabs/terraform-aws-template)](https://github.com/DNXLabs/terraform-aws-template/blob/master/LICENSE)
+[![Lint Status](https://github.com/DNXLabs/terraform-aws-bastion-ec2/workflows/Lint/badge.svg)](https://github.com/DNXLabs/terraform-aws-bastion-ec2/actions)
+[![LICENSE](https://img.shields.io/github/license/DNXLabs/terraform-aws-bastion-ec2)](https://github.com/DNXLabs/terraform-aws-bastion-ec2/blob/master/LICENSE)
 
 <!--- BEGIN_TF_DOCS --->
 
