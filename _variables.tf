@@ -102,6 +102,16 @@ variable "log_standard_ia_days" {
   default     = 30
 }
 
+variable "ebs_device_name" {
+  description = "The name of the device to mount"
+  default     = "/dev/xvda"
+}
+
+variable "volume_type" {
+  description = "The volume type. Can be one of standard, gp2, gp3, io1, io2, sc1 or st1"
+  default     = "gp3"
+}
+
 variable "log_glacier_days" {
   description = "Number of days before moving logs to Glacier"
   default     = 60

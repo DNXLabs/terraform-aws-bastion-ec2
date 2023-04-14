@@ -1,4 +1,3 @@
-
 resource "aws_launch_template" "default" {
   name_prefix            = local.name_prefix
   image_id               = var.ami_id != "" ? var.ami_id : data.aws_ami.amazon-linux-2.id
@@ -31,10 +30,10 @@ resource "aws_launch_template" "default" {
   }))
 
   block_device_mappings {
-    device_name = "/dev/xvda"
+    device_name = var.ebs_device_name
     ebs {
       volume_size           = var.disk_size
-      volume_type           = "gp2"
+      volume_type           = var.volume_type
       delete_on_termination = true
       encrypted             = var.disk_encrypt
       kms_key_id            = var.disk_encrypt ? data.aws_kms_alias.kms-ebs.target_key_arn : ""
