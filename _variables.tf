@@ -88,7 +88,7 @@ variable "bastion_instance_count" {
 }
 
 variable "create_dns_record" {
-  type = bool
+  type        = bool
   description = "Choose if you want to create a record name for the bastion (LB). If true 'hosted_zone_id' and 'bastion_record_name' are mandatory "
 }
 
