@@ -88,7 +88,7 @@ variable "bastion_instance_count" {
 }
 
 variable "create_dns_record" {
-  type = bool
+  type        = bool
   description = "Choose if you want to create a record name for the bastion (LB). If true 'hosted_zone_id' and 'bastion_record_name' are mandatory "
 }
 
@@ -100,6 +100,16 @@ variable "log_auto_clean" {
 variable "log_standard_ia_days" {
   description = "Number of days before moving logs to IA Storage"
   default     = 30
+}
+
+variable "ebs_device_name" {
+  description = "The name of the device to mount"
+  default     = "/dev/xvda"
+}
+
+variable "volume_type" {
+  description = "The volume type. Can be one of standard, gp2, gp3, io1, io2, sc1 or st1"
+  default     = "gp3"
 }
 
 variable "log_glacier_days" {

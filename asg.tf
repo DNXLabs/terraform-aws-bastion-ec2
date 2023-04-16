@@ -1,9 +1,9 @@
 resource "aws_autoscaling_group" "bastion_auto_scaling_group" {
-  name_prefix = "asg-${local.name_prefix}"
-  max_size         = var.bastion_instance_count
-  min_size         = var.bastion_instance_count
-  desired_capacity = var.bastion_instance_count
-  vpc_zone_identifier = var.auto_scaling_group_subnets
+  name_prefix               = "asg-${local.name_prefix}"
+  max_size                  = var.bastion_instance_count
+  min_size                  = var.bastion_instance_count
+  desired_capacity          = var.bastion_instance_count
+  vpc_zone_identifier       = var.auto_scaling_group_subnets
   default_cooldown          = 180
   health_check_grace_period = 180
   health_check_type         = "EC2"

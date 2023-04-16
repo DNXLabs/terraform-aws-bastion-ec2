@@ -43,6 +43,7 @@
 | create\_dns\_record | Choose if you want to create a record name for the bastion (LB). If true 'hosted\_zone\_id' and 'bastion\_record\_name' are mandatory | `bool` | n/a | yes |
 | disk\_encrypt | Instance EBS encrypt | `bool` | `true` | no |
 | disk\_size | Root EBS size in GB | `number` | `8` | no |
+| ebs\_device\_name | The name of the device to mount | `string` | `"/dev/xvda"` | no |
 | elb\_subnets | List of subnet were the ELB will be deployed | `list(string)` | n/a | yes |
 | enable\_logs\_s3\_sync | Enable cron job to copy logs to S3 | `bool` | `true` | no |
 | extra\_user\_data\_content | Additional scripting to pass to the bastion host. For example, this can include installing postgresql for the `psql` command. | `string` | `""` | no |
@@ -57,6 +58,7 @@
 | private\_ssh\_port | Set the SSH port to use between the bastion and private instance | `number` | `22` | no |
 | public\_ssh\_port | Set the SSH port to use from desktop to the bastion | `number` | `22` | no |
 | tags | A mapping of tags to assign | `map(string)` | `{}` | no |
+| volume\_type | The volume type. Can be one of standard, gp2, gp3, io1, io2, sc1 or st1 | `string` | `"gp3"` | no |
 | vpc\_id | VPC id were we'll deploy the bastion | `any` | n/a | yes |
 
 ## Outputs
