@@ -183,8 +183,8 @@ variable "enable_logs_s3_sync" {
   default     = true
 }
 
-variable "kms_enable_key_rotation" {
-  description = "Enable key rotation for the KMS key"
+variable "kms_create_key" {
+  description = "Create a KMS key for encrypting the bastion host logs S3 bucket"
   type        = bool
   default     = false
 }

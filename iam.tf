@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "bastion_host_policy_document" {
       "kms:Encrypt",
       "kms:Decrypt"
     ]
-    resources = [aws_kms_key.key.arn]
+    resources = [var.kms_create_key ? aws_kms_key.key[0].arn : "" ]
   }
 
 }
