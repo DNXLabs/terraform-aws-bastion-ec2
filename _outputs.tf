@@ -3,11 +3,11 @@ output "bastion_host_security_group" {
 }
 
 output "bucket_kms_key_alias" {
-  value = aws_kms_alias.alias.name
+  value = var.kms_create_key ? aws_kms_alias.alias[0].name : ""
 }
 
 output "bucket_kms_key_arn" {
-  value = aws_kms_key.key.arn
+  value = var.kms_create_key ? aws_kms_alias.alias[0].name : ""
 }
 
 output "bucket_name" {

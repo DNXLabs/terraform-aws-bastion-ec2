@@ -9,8 +9,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.key.id
-      sse_algorithm     = "aws:kms"
+      kms_master_key_id = var.kms_create_key ? aws_kms_key.key[0].id : null
+      sse_algorithm     = var.kms_create_key ? "aws:kms" : "AES256"
     }
   }
 }
@@ -59,5 +59,5 @@ resource "aws_s3_object" "bucket_public_keys_readme" {
   bucket     = aws_s3_bucket.bucket.id
   key        = "public-keys/README.txt"
   content    = "Drop here the ssh public keys of the instances you want to control"
-  kms_key_id = aws_kms_key.key.arn
+  kms_key_id = var.kms_create_key ? aws_kms_key.key[0].arn : null
 }
