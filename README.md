@@ -9,7 +9,7 @@
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.13.0 |
+| terraform | >= 1.5.3 |
 | aws | ~> 4.0 |
 | tls | ~> 4.0 |
 
@@ -25,7 +25,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | allow\_from\_cidrs | List of CIDRs than can access to the bastion. Default : 0.0.0.0/0 | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| allow\_from\_cidrs\_ipv6 | List of IPv6 CIDRs than can access to the bastion. Default : ::/0 | `list(string)` | <pre>[<br>  "::/0"<br>]</pre> | no |
+| allow\_from\_cidrs\_ipv6 | List of IPv6 CIDRs than can access to the bastion. Default : ::/0 | `list(string)` | `[]` | no |
 | allow\_ssh\_commands | Allows the SSH user to execute one-off commands. Pass true to enable. Warning: These commands are not logged and increase the vulnerability of the system. Use at your own discretion. | `bool` | `false` | no |
 | ami\_id | The AMI that the Bastion Host will use. | `string` | `""` | no |
 | associate\_public\_ip\_address | n/a | `string` | `false` | no |
@@ -42,6 +42,7 @@
 | bucket\_name | Bucket name were the bastion will store the logs | `string` | n/a | yes |
 | bucket\_versioning | Enable bucket versioning or not | `bool` | `true` | no |
 | create\_dns\_record | Choose if you want to create a record name for the bastion (LB). If true 'hosted\_zone\_id' and 'bastion\_record\_name' are mandatory | `bool` | n/a | yes |
+| create\_nacl\_rule | Create a NACL rule to allow SSH traffic on ASG subnet | `bool` | `true` | no |
 | disk\_encrypt | Instance EBS encrypt | `bool` | `true` | no |
 | disk\_size | Root EBS size in GB | `number` | `8` | no |
 | ebs\_device\_name | The name of the device to mount | `string` | `"/dev/xvda"` | no |
@@ -50,13 +51,11 @@
 | extra\_user\_data\_content | Additional scripting to pass to the bastion host. For example, this can include installing postgresql for the `psql` command. | `string` | `""` | no |
 | hosted\_zone\_id | Name of the hosted zone were we'll register the bastion DNS name | `string` | `""` | no |
 | instance\_type | Instance size of the bastion | `string` | `"t3.nano"` | no |
-| is\_lb\_private | The AMI that the Bastion Host will use. | `bool` | `false` | no |
 | kms\_create\_key | Create a KMS key for encrypting the bastion host logs S3 bucket | `bool` | `false` | no |
 | log\_auto\_clean | Enable or not the lifecycle | `bool` | `false` | no |
 | log\_expiry\_days | Number of days before logs expiration | `number` | `90` | no |
 | log\_glacier\_days | Number of days before moving logs to Glacier | `number` | `60` | no |
 | log\_standard\_ia\_days | Number of days before moving logs to IA Storage | `number` | `30` | no |
-| private\_ssh\_port | Set the SSH port to use between the bastion and private instance | `number` | `22` | no |
 | public\_ssh\_port | Set the SSH port to use from desktop to the bastion | `number` | `22` | no |
 | tags | A mapping of tags to assign | `map(string)` | `{}` | no |
 | volume\_type | The volume type. Can be one of standard, gp2, gp3, io1, io2, sc1 or st1 | `string` | `"gp3"` | no |
@@ -74,7 +73,6 @@
 | bucket\_name | n/a |
 | elb\_arn | n/a |
 | elb\_ip | n/a |
-| private\_instances\_security\_group | n/a |
 | target\_group\_arn | n/a |
 
 <!--- END_TF_DOCS --->
