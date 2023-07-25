@@ -1,5 +1,5 @@
 resource "aws_launch_template" "default" {
-  name_prefix            = local.name_prefix
+  name_prefix            = var.bastion_name
   image_id               = var.ami_id != "" ? var.ami_id : data.aws_ami.amazon-linux-2.id
   instance_type          = var.instance_type
   update_default_version = true
@@ -11,7 +11,7 @@ resource "aws_launch_template" "default" {
 
   network_interfaces {
     associate_public_ip_address = var.associate_public_ip_address
-    security_groups             = concat([local.security_group], var.bastion_additional_security_groups)
+    security_groups             = concat([aws_security_group.bastion_host_security_group[0].id], var.bastion_additional_security_groups)
     delete_on_termination       = true
   }
 
@@ -22,7 +22,7 @@ resource "aws_launch_template" "default" {
 
   user_data = base64encode(templatefile("${path.module}/assets/user_data.sh", {
     aws_region              = data.aws_region.current.name
-    bucket_name             = var.bucket_name
+    bucket_name             = aws_s3_bucket.bucket.bucket
     extra_user_data_content = var.extra_user_data_content
     allow_ssh_commands      = lower(var.allow_ssh_commands)
     public_ssh_port         = var.public_ssh_port

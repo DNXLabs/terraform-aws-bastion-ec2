@@ -30,10 +30,6 @@ output "target_group_arn" {
   value = aws_lb_target_group.nlb_target_group.arn
 }
 
-output "private_instances_security_group" {
-  value = aws_security_group.private_instances_security_group.id
-}
-
 output "bastion_auto_scaling_group_name" {
   value = aws_autoscaling_group.bastion_auto_scaling_group.name
 }

@@ -2,7 +2,7 @@
 resource "aws_security_group" "bastion_host_security_group" {
   count       = var.bastion_security_group_id == "" ? 1 : 0
   description = "Enable SSH access to the bastion host from external via SSH port"
-  name        = "${local.name_prefix}-host"
+  name        = "${var.bastion_name}-host"
   vpc_id      = var.vpc_id
 
   tags = merge(var.tags)
@@ -15,10 +15,10 @@ resource "aws_security_group_rule" "ingress_bastion" {
   from_port        = var.public_ssh_port
   to_port          = var.public_ssh_port
   protocol         = "TCP"
-  cidr_blocks      = local.ipv4_cidr_block
-  ipv6_cidr_blocks = local.ipv6_cidr_block
+  cidr_blocks      = concat(compact(data.aws_subnet.subnets[*].cidr_block), var.allow_from_cidrs)
+  ipv6_cidr_blocks = concat(compact(data.aws_subnet.subnets[*].ipv6_cidr_block), var.allow_from_cidrs_ipv6)
 
-  security_group_id = local.security_group
+  security_group_id = aws_security_group.bastion_host_security_group[0].id
 }
 
 resource "aws_security_group_rule" "egress_bastion" {
@@ -30,25 +30,5 @@ resource "aws_security_group_rule" "egress_bastion" {
   protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = local.security_group
-}
-
-resource "aws_security_group" "private_instances_security_group" {
-  description = "Enable SSH access to the Private instances from the bastion via SSH port"
-  name        = "${local.name_prefix}-priv-instances"
-  vpc_id      = var.vpc_id
-
-  tags = merge(var.tags)
-}
-
-resource "aws_security_group_rule" "ingress_instances" {
-  description = "Incoming traffic from bastion"
-  type        = "ingress"
-  from_port   = var.private_ssh_port
-  to_port     = var.private_ssh_port
-  protocol    = "TCP"
-
-  source_security_group_id = local.security_group
-
-  security_group_id = aws_security_group.private_instances_security_group.id
+  security_group_id = aws_security_group.bastion_host_security_group[0].id
 }

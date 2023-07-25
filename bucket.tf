@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
-  bucket        = var.bucket_name
+  bucket_prefix = "${var.bucket_name}-"
   force_destroy = var.bucket_force_destroy
   tags          = merge(var.tags)
 }
@@ -8,16 +8,12 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
   bucket = aws_s3_bucket.bucket.id
 
   rule {
+    bucket_key_enabled = true
     apply_server_side_encryption_by_default {
       kms_master_key_id = var.kms_create_key ? aws_kms_key.key[0].id : null
       sse_algorithm     = var.kms_create_key ? "aws:kms" : "AES256"
     }
   }
-}
-
-resource "aws_s3_bucket_acl" "bucket" {
-  bucket = aws_s3_bucket.bucket.id
-  acl    = "private"
 }
 
 resource "aws_s3_bucket_versioning" "bucket" {
