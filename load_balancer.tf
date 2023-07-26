@@ -1,7 +1,6 @@
 
 resource "aws_lb" "nlb" {
-  internal = var.is_lb_private
-  name     = "${local.name_prefix}-lb"
+  name = "${var.bastion_name}-lb"
 
   subnets = var.elb_subnets
 
@@ -10,7 +9,7 @@ resource "aws_lb" "nlb" {
 }
 
 resource "aws_lb_target_group" "nlb_target_group" {
-  name        = "${local.name_prefix}-lb-target"
+  name        = "${var.bastion_name}-lb-target"
   port        = var.public_ssh_port
   protocol    = "TCP"
   vpc_id      = var.vpc_id

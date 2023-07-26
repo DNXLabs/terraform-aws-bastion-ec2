@@ -41,6 +41,12 @@ variable "hosted_zone_id" {
   type        = string
 }
 
+variable "create_nacl_rule" {
+  description = "Create a NACL rule to allow SSH traffic on ASG subnet"
+  default     = true
+  type        = bool
+}
+
 variable "bastion_record_name" {
   description = "DNS record name to use for the bastion"
   default     = ""
@@ -63,12 +69,6 @@ variable "bastion_additional_security_groups" {
   description = "List of additional security groups to attach to the launch template"
   type        = list(string)
   default     = []
-}
-
-variable "is_lb_private" {
-  type        = bool
-  description = "The AMI that the Bastion Host will use."
-  default     = false
 }
 
 variable "ami_id" {
@@ -144,12 +144,6 @@ variable "public_ssh_port" {
   type        = number
 }
 
-variable "private_ssh_port" {
-  description = "Set the SSH port to use between the bastion and private instance"
-  default     = 22
-  type        = number
-}
-
 variable "extra_user_data_content" {
   description = "Additional scripting to pass to the bastion host. For example, this can include installing postgresql for the `psql` command."
   type        = string
@@ -213,7 +207,5 @@ variable "kms_create_key" {
 variable "allow_from_cidrs_ipv6" {
   description = "List of IPv6 CIDRs than can access to the bastion. Default : ::/0"
   type        = list(string)
-  default = [
-    "::/0",
-  ]
+  default     = []
 }

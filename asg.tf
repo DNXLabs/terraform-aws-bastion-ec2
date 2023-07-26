@@ -1,5 +1,5 @@
 resource "aws_autoscaling_group" "bastion_auto_scaling_group" {
-  name_prefix               = "asg-${local.name_prefix}"
+  name_prefix               = "asg-${var.bastion_name}"
   max_size                  = var.bastion_instance_count
   min_size                  = var.bastion_instance_count
   desired_capacity          = var.bastion_instance_count
@@ -33,7 +33,7 @@ resource "aws_autoscaling_group" "bastion_auto_scaling_group" {
 
   tag {
     key                 = "Name"
-    value               = "asg-${local.name_prefix}"
+    value               = "asg-${var.bastion_name}"
     propagate_at_launch = true
   }
 

@@ -50,7 +50,7 @@ jobs:
     name: Minimum version check
     runs-on: ubuntu-latest
     container:
-      image: hashicorp/terraform:0.13.0
+      image: hashicorp/terraform:1.5.3
     steps:
       - uses: actions/checkout@master
       - name: Validate Code
@@ -60,4 +60,4 @@ jobs:
         run: |
           sed -i -e 's/>=/=/' -e 's/ \(\d\+\.\d\+\)"/ \1.0"/' versions.tf
           terraform init
-          terraform validate -var "region=${AWS_REGION}" -var "vpc_id=vpc-123456" -var "subnets=[\"subnet-12345a\"]" -var "workers_ami_id=ami-123456" -var "cluster_ingress_cidrs=[]" -var "cluster_name=test_cluster"
+          terraform validate

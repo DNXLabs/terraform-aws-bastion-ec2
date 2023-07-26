@@ -17,7 +17,7 @@ resource "aws_iam_role" "bastion_host_role" {
   permissions_boundary = var.bastion_iam_permissions_boundary
 }
 
-data "aws_iam_policy_document" "bastion_host_policy_document" {
+data "aws_iam_policy_document" "bastion_host_s3_policy" {
 
   statement {
     actions = [
@@ -47,16 +47,24 @@ data "aws_iam_policy_document" "bastion_host_policy_document" {
       variable = "s3:prefix"
     }
   }
+}
 
+data "aws_iam_policy_document" "bastion_host_kms_policy" {
+  count = var.kms_create_key ? 1 : 0
   statement {
     actions = [
-
       "kms:Encrypt",
       "kms:Decrypt"
     ]
-    resources = [var.kms_create_key ? aws_kms_key.key[0].arn : ""]
+    resources = [aws_kms_key.key[0].arn]
   }
+}
 
+data "aws_iam_policy_document" "bastion_host_policy_document" {
+  source_policy_documents = concat(
+    [data.aws_iam_policy_document.bastion_host_s3_policy.json],
+    try([data.aws_iam_policy_document.bastion_host_kms_policy[0].json], [])
+  )
 }
 
 resource "aws_iam_instance_profile" "default" {
@@ -71,5 +79,10 @@ resource "aws_iam_policy" "bastion_host_policy" {
 
 resource "aws_iam_role_policy_attachment" "bastion_host" {
   policy_arn = aws_iam_policy.bastion_host_policy.arn
+  role       = aws_iam_role.bastion_host_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "bastion_host_ssm" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   role       = aws_iam_role.bastion_host_role.name
 }
