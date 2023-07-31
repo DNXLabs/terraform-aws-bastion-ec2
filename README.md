@@ -9,7 +9,7 @@
 
 | Name | Version |
 |------|---------|
-| terraform | >= 1.5.3 |
+| terraform | >= 0.13.0 |
 | aws | ~> 4.0 |
 | tls | ~> 4.0 |
 
