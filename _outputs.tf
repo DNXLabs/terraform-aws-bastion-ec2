@@ -33,3 +33,13 @@ output "target_group_arn" {
 output "bastion_auto_scaling_group_name" {
   value = aws_autoscaling_group.bastion_auto_scaling_group.name
 }
+
+output "eni_id" {
+  description = "ID of the ENI created for the bastion (if create_eni is true)"
+  value       = var.create_eni ? aws_network_interface.bastion_eni[0].id : null
+}
+
+output "eni_private_ip" {
+  description = "Private IP address of the ENI (if create_eni is true)"
+  value       = var.create_eni ? aws_network_interface.bastion_eni[0].private_ip : null
+}

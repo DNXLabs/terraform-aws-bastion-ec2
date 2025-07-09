@@ -9,10 +9,23 @@ resource "aws_launch_template" "default" {
     enabled = true
   }
 
-  network_interfaces {
-    associate_public_ip_address = var.associate_public_ip_address
-    security_groups             = concat([aws_security_group.bastion_host_security_group[0].id], var.bastion_additional_security_groups)
-    delete_on_termination       = true
+  dynamic "network_interfaces" {
+    for_each = var.create_eni ? [] : [1]
+    content {
+      associate_public_ip_address = var.associate_public_ip_address
+      security_groups             = concat([aws_security_group.bastion_host_security_group[0].id], var.bastion_additional_security_groups)
+      delete_on_termination       = true
+    }
+  }
+
+  dynamic "network_interfaces" {
+    for_each = var.create_eni ? [1] : []
+    content {
+      network_interface_id        = aws_network_interface.bastion_eni[0].id
+      device_index                = 0
+      delete_on_termination       = false
+      associate_public_ip_address = false
+    }
   }
 
   iam_instance_profile {
