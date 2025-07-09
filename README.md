@@ -42,12 +42,16 @@
 | bucket\_name | Bucket name were the bastion will store the logs | `string` | n/a | yes |
 | bucket\_versioning | Enable bucket versioning or not | `bool` | `true` | no |
 | create\_dns\_record | Choose if you want to create a record name for the bastion (LB). If true 'hosted\_zone\_id' and 'bastion\_record\_name' are mandatory | `bool` | n/a | yes |
+| create\_eni | Create an ENI with a static IP for the bastion instance | `bool` | `false` | no |
 | create\_nacl\_rule | Create a NACL rule to allow SSH traffic on ASG subnet | `bool` | `true` | no |
 | disk\_encrypt | Instance EBS encrypt | `bool` | `true` | no |
 | disk\_size | Root EBS size in GB | `number` | `8` | no |
 | ebs\_device\_name | The name of the device to mount | `string` | `"/dev/xvda"` | no |
 | elb\_subnets | List of subnet were the ELB will be deployed | `list(string)` | n/a | yes |
 | enable\_logs\_s3\_sync | Enable cron job to copy logs to S3 | `bool` | `true` | no |
+| eni\_availability\_zones | List of availability zones for ENI-based Auto Scaling Group. Required if create\_eni is true | `list(string)` | `[]` | no |
+| eni\_private\_ip | Private IP address for the ENI. Must be within the subnet CIDR range | `string` | `""` | no |
+| eni\_subnet\_id | Subnet ID where the ENI will be created. Required if create\_eni is true | `string` | `""` | no |
 | extra\_user\_data\_content | Additional scripting to pass to the bastion host. For example, this can include installing postgresql for the `psql` command. | `string` | `""` | no |
 | hosted\_zone\_id | Name of the hosted zone were we'll register the bastion DNS name | `string` | `""` | no |
 | instance\_type | Instance size of the bastion | `string` | `"t3.nano"` | no |
@@ -73,6 +77,8 @@
 | bucket\_name | n/a |
 | elb\_arn | n/a |
 | elb\_ip | n/a |
+| eni\_id | ID of the ENI created for the bastion (if create\_eni is true) |
+| eni\_private\_ip | Private IP address of the ENI (if create\_eni is true) |
 | target\_group\_arn | n/a |
 
 <!--- END_TF_DOCS --->
