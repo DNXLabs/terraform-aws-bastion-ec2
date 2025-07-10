@@ -209,3 +209,27 @@ variable "allow_from_cidrs_ipv6" {
   type        = list(string)
   default     = []
 }
+
+variable "create_eni" {
+  description = "Create an ENI with a static IP for the bastion instance"
+  type        = bool
+  default     = false
+}
+
+variable "eni_private_ip" {
+  description = "Private IP address for the ENI. Must be within the subnet CIDR range"
+  type        = string
+  default     = ""
+}
+
+variable "eni_subnet_id" {
+  description = "Subnet ID where the ENI will be created. Required if create_eni is true"
+  type        = string
+  default     = ""
+}
+
+variable "eni_availability_zones" {
+  description = "List of availability zones for ENI-based Auto Scaling Group. Required if create_eni is true"
+  type        = list(string)
+  default     = []
+}
