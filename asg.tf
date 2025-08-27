@@ -1,3 +1,10 @@
+locals {
+  all_tags = merge(
+    data.aws_default_tags.current.tags,
+    var.tags
+  )
+}
+
 resource "aws_autoscaling_group" "bastion_auto_scaling_group" {
   name_prefix               = "asg-${var.bastion_name}"
   max_size                  = var.bastion_instance_count
@@ -23,7 +30,7 @@ resource "aws_autoscaling_group" "bastion_auto_scaling_group" {
   }
 
   dynamic "tag" {
-    for_each = var.tags
+    for_each = local.all_tags
 
     content {
       key                 = tag.key
