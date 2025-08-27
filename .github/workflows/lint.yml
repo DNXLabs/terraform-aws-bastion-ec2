@@ -52,7 +52,7 @@ jobs:
     container:
       image: hashicorp/terraform:0.13.0
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
       - name: Validate Code
         env:
           AWS_REGION: 'us-east-1'
